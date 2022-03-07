@@ -26,6 +26,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     //Apartment Routes
     $r->addRoute('GET', '/create', [App\Controllers\ApartmentsController::class, "create"]);
     $r->addRoute('POST', '/create', [App\Controllers\ApartmentsController::class, "list"]);
+    $r->addRoute('GET', '/show/{id:\d+}', [App\Controllers\ApartmentsController::class, "show"]);
+    $r->addRoute('POST', '/show/{id:\d+}/reserve', [App\Controllers\ApartmentsController::class, "reserve"]);
+
 
 
 
@@ -66,7 +69,6 @@ switch ($routeInfo[0]) {
         if($response instanceof View) {
             echo $twig->render($response->getPath(), $response->getVars());
         }
-
 
         if($response instanceof Redirect) {
             header('Location: ' . $response->getLocation());

@@ -13,7 +13,7 @@ class UsersController {
     {
         if(!empty($_SESSION["login"]))
         {
-            return new Redirect("/home");
+            return new Redirect("/login");
         } else {
 
             return new View("register.html", [
@@ -64,7 +64,7 @@ class UsersController {
                     "phone_number" => $_POST["phoneNumber"]
                 ]);
 
-            return new Redirect("/home");
+            return new Redirect("/login");
         } else {
             return new Redirect("/register");
         }

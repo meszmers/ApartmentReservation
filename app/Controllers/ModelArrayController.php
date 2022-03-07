@@ -24,7 +24,9 @@ class ModelArrayController {
                 $construct["rooms"],
                 $construct["available_from"],
                 $construct["available_to"],
-                $construct["created_at"]);
+                $construct["created_at"],
+                number_format($construct["price"], 2),
+                $construct["picture"]);
         }
         return $detailedApartmentInfo;
 

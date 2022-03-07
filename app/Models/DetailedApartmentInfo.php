@@ -13,8 +13,10 @@ class DetailedApartmentInfo {
     private $phoneNumber;
     private $email;
     private $id;
+    private $price;
+    private $picture;
 
-    public function __construct($id, $name, $surname, $phoneNumber, $email, $country, $address, $description, $rooms, $availableFrom, $availableTo, $createdAt)
+    public function __construct($id, $name, $surname, $phoneNumber, $email, $country, $address, $description, $rooms, $availableFrom, $availableTo, $createdAt, $price, $picture)
     {
         $this->name = $name;
         $this->surname = $surname;
@@ -28,6 +30,9 @@ class DetailedApartmentInfo {
         $this->phoneNumber = $phoneNumber;
         $this->email = $email;
         $this->id = $id;
+        $this->price = $price;
+
+        $this->picture = $picture;
     }
 
 
@@ -100,5 +105,16 @@ class DetailedApartmentInfo {
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+
+    public function getPicture()
+    {
+        return $this->picture;
     }
 }

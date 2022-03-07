@@ -12,6 +12,7 @@ class WebsiteController {
 
         return new View("Apartments/home.html", ["apartments"=> $apartments]);
     }
+
     public function send() {
         return new Redirect("/login");
     }
