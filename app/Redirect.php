@@ -1,7 +1,9 @@
 <?php
+
 namespace App;
 
-class Redirect {
+class Redirect
+{
 
     private string $location;
 
@@ -10,7 +12,8 @@ class Redirect {
         $this->location = $location;
     }
 
-    public function getLocation(): string {
+    public function getLocation(): string
+    {
         return $this->location;
     }
 }

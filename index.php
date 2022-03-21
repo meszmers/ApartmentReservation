@@ -23,13 +23,22 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/', [App\Controllers\WebsiteController::class, "send"]);
     $r->addRoute('GET', '/home', [App\Controllers\WebsiteController::class, "index"]);
 
-    //Apartment Routes
+    //ApartmentEdit Routes
     $r->addRoute('GET', '/create', [App\Controllers\ApartmentsController::class, "create"]);
     $r->addRoute('POST', '/create', [App\Controllers\ApartmentsController::class, "list"]);
     $r->addRoute('GET', '/show/{id:\d+}', [App\Controllers\ApartmentsController::class, "show"]);
-    $r->addRoute('POST', '/show/{id:\d+}/reserve', [App\Controllers\ApartmentsController::class, "reserve"]);
+    $r->addRoute('POST', '/show/{id:\d+}/remove', [App\Controllers\ApartmentsController::class, "remove"]);
 
+    //Reservation Routes
+    $r->addRoute('POST', '/show/{id:\d+}/reserve', [App\Controllers\ReservationController::class, "reserve"]);
+    $r->addRoute('GET', '/reservations', [App\Controllers\ReservationController::class, "userReservations"]);
+    $r->addRoute('GET', '/advertisements', [App\Controllers\ApartmentsController::class, "userAdvertisements"]);
+    $r->addRoute('POST', '/show/{id:\d+}/cancel', [App\Controllers\ReservationController::class, "cancel"]);
+    $r->addRoute('GET', '/show/{id:\d+}/edit', [App\Controllers\ApartmentsController::class, "edit"]);
+    $r->addRoute('POST', '/show/{id:\d+}/update', [App\Controllers\ApartmentsController::class, "update"]);
 
+    //Review Routes
+    $r->addRoute('POST', '/show/{id:\d+}/review', [App\Controllers\ReviewController::class, "review"]);
 
 
 });
@@ -47,7 +56,7 @@ $uri = rawurldecode($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        // ... 404 Not Found
+        echo "404 Not Found";
         break;
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         $allowedMethods = $routeInfo[1];
@@ -76,6 +85,7 @@ switch ($routeInfo[0]) {
 
         break;
 }
+
 
 if (isset($_SESSION['Errors']) && $httpMethod == "GET"){
     unset($_SESSION['Errors']);

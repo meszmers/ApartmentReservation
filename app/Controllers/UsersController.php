@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Database;
@@ -7,12 +8,12 @@ use App\Redirect;
 use App\View;
 
 
-class UsersController {
+class UsersController
+{
 
     public function register()
     {
-        if(!empty($_SESSION["login"]))
-        {
+        if (!empty($_SESSION["login"])) {
             return new Redirect("/login");
         } else {
 
@@ -24,8 +25,7 @@ class UsersController {
 
     public function login()
     {
-        if(!empty($_SESSION["login"]))
-        {
+        if (!empty($_SESSION["login"])) {
             return new Redirect("/home");
         } else {
             return new View("login.html", [
@@ -33,7 +33,8 @@ class UsersController {
             ]);
         }
     }
-    public function logout() : Redirect
+
+    public function logout(): Redirect
     {
         unset($_SESSION["login"]);
         return new Redirect("/login");
@@ -46,8 +47,7 @@ class UsersController {
         (new Errors())->registerValidation($_POST["name"], $_POST["surname"], $_POST["pwd"], $_POST["pwdRepeat"], $_POST["email"], $_POST["phoneNumber"]);
 
 
-        if(empty($_SESSION["Errors"]))
-        {
+        if (empty($_SESSION["Errors"])) {
             $dataBase->insert('users', [
                 "email" => $_POST["email"],
                 "password" => password_hash($_POST["pwd"], PASSWORD_DEFAULT)
@@ -70,6 +70,7 @@ class UsersController {
         }
 
     }
+
     public function session()
     {
         $dataBase = Database::connection();
@@ -77,11 +78,11 @@ class UsersController {
 
         (new Errors())->loginValidation($_POST["emailLogin"], $_POST["pwdLogin"]);
 
-        if(empty($_SESSION["Errors"])) {
+        if (empty($_SESSION["Errors"])) {
 
             $userProfile = $dataBase->fetchAssociative('SELECT * FROM users_profile WHERE user_id = ?', [$userData["id"]]);
 
-            $_SESSION["login"] = ["id"=> $userProfile["user_id"], "name"=> $userProfile["name"], "surname"=> $userProfile["surname"]];
+            $_SESSION["login"] = ["id" => $userProfile["user_id"], "name" => $userProfile["name"], "surname" => $userProfile["surname"]];
 
             return new Redirect("/home");
         } else {

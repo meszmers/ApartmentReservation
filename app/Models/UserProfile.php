@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Models;
 
-class UserProfile {
+class UserProfile
+{
     private int $id;
     private int $userId;
     private string $email;

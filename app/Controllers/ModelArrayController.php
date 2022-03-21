@@ -1,17 +1,25 @@
 <?php
+
 namespace App\Controllers;
+
 use App\Database;
 use App\Models\DetailedApartmentInfo;
 
-class ModelArrayController {
+class ModelArrayController
+{
 
-    public function ApartmentInfoArray() {
-        $dataBase =  Database::connection();
+    public function ApartmentInfoArray()
+    {
+        $dataBase = Database::connection();
         $apartments = $dataBase->fetchAllAssociative('SELECT * FROM apartments');
         $detailedApartmentInfo = [];
         foreach ($apartments as $construct) {
             $idFromUser = $dataBase->fetchAssociative(
                 'SELECT name, surname, phone_number, email FROM users_profile WHERE user_id = ?', [$construct["created_user_id"]]);
+
+            if(strlen($construct["description"]) > 322) {
+                $construct["description"] = rtrim(substr($construct["description"], 0, 322));
+            }
             $detailedApartmentInfo[] = new DetailedApartmentInfo(
                 $construct["id"],
                 $idFromUser["name"],
@@ -31,4 +39,5 @@ class ModelArrayController {
         return $detailedApartmentInfo;
 
     }
+
 }

@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="list-group" style="width: 50%; margin: auto">
+    <div style="text-align: center">
+        <h2>Your Reservations</h2>
+    </div>
+    {% for reservation in reservations %}
+    <a href="/show/{{ reservation.id }}" class="list-group-item list-group-item-action d-flex gap-3 py-3"
+       aria-current="true">
+        <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+                <h6 class="mb-0">{{ reservation.country }} {{ reservation.address }} / {{ reservation.rooms }}</h6>
+                <p class="mb-0 opacity-75">{{ reservation.price }} Euros</p>
+                <br>
+                <small class="opacity-50 text-nowrap">From {{ reservation.dayFrom }} | To {{ reservation.dayTo }}</small>
+            </div>
+
+        </div>
+        <form action="/show/{{ reservation.id }}/cancel" onclick="return confirm('Are you sure?')" method="post">
+            <input style="size: 1px" type="submit" value="Cancel">
+        </form>
+
+    </a>
+    {% endfor %}
+
+</div>
+{% endblock %}

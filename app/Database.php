@@ -5,11 +5,13 @@ namespace App;
 
 use Doctrine\DBAL\DriverManager;
 
-class Database {
+class Database
+{
     private static $connection = null;
 
-    public static function connection() {
-        if(self::$connection === null) {
+    public static function connection()
+    {
+        if (self::$connection === null) {
             $connectionParams = [
                 'dbname' => 'BookingApp',
                 'user' => 'root',

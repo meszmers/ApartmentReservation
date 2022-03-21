@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Models;
-class DetailedApartmentInfo {
+class DetailedApartmentInfo
+{
     private $name;
     private $surname;
     private $country;

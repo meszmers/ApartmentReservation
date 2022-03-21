@@ -1,7 +1,9 @@
 <?php
+
 namespace App;
 
-class View{
+class View
+{
 
     private string $path;
     private array $vars;

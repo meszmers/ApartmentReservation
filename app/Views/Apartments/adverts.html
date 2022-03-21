@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="list-group" style="width: 50%; margin: auto">
+    <div style="text-align: center">
+        <h2>Your Advertisements</h2>
+    </div>
+    {% for apartment in apartments %}
+    <a href="" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+        <div class="d-flex gap-2 w-100 justify-content-between">
+            <div>
+                <h6 class="mb-0">{{ apartment.country }} {{ apartment.address }} / {{ apartment.rooms }}</h6>
+                <p class="mb-0 opacity-75">{{ apartment.price }} EUR per day</p>
+                <br>
+                <small class="opacity-50 text-nowrap">From {{ apartment.avaFrom }} | To {{ apartment.avaTo }}</small>
+            </div>
+        </div>
+        <div>
+            <form action="/show/{{ apartment.id }}/remove" onclick="return confirm('Are you sure?')" method="post">
+                <input type="submit" value="Remove">
+            </form>
+            <form action="/show/{{ apartment.id }}/edit" method="get">
+                <input type="submit" value="Edit">
+            </form>
+        </div>
+
+
+    </a>
+    {% endfor %}
+
+</div>
+{% endblock %}
+

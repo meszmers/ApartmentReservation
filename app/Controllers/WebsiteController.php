@@ -1,19 +1,31 @@
 <?php
+
 namespace App\Controllers;
 
 use App\Redirect;
 use App\View;
 
-class WebsiteController {
+class WebsiteController
+{
 
     public function index()
     {
-        $apartments = (new ModelArrayController)->ApartmentInfoArray();
+        if (!empty($_SESSION["login"])) {
+            $apartments = (new ModelArrayController)->ApartmentInfoArray();
 
-        return new View("Apartments/home.html", ["apartments"=> $apartments]);
+            return new View("Apartments/home.html", ["apartments" => $apartments]);
+        } else {
+            return new Redirect("/login");
+        }
     }
 
-    public function send() {
+    public function send()
+    {
         return new Redirect("/login");
+    }
+
+    public function error()
+    {
+        return new View("error.html");
     }
 }
