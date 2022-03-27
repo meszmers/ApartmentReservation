@@ -9,15 +9,15 @@ use Twig\Loader\FilesystemLoader;
 
 session_start();
 
-$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
-    //UsersController Routes
+$dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
+    //UserController Routes
 
-    $r->addRoute('GET', '/login', [App\Controllers\UsersController::class, "login"]);
-    $r->addRoute('GET', '/register', [App\Controllers\UsersController::class, "register"]);
-    $r->addRoute('GET', '/logout', [App\Controllers\UsersController::class, "logout"]);
+    $r->addRoute('GET', '/login', [App\Controllers\UserController::class, "login"]);
+    $r->addRoute('GET', '/register', [App\Controllers\UserController::class, "register"]);
+    $r->addRoute('GET', '/logout', [App\Controllers\UserController::class, "logout"]);
 
-    $r->addRoute('POST', '/login', [App\Controllers\UsersController::class, "session"]);
-    $r->addRoute('POST', '/register', [App\Controllers\UsersController::class, "store"]);
+    $r->addRoute('POST', '/login', [App\Controllers\UserController::class, "session"]);
+    $r->addRoute('POST', '/register', [App\Controllers\UserController::class, "store"]);
 
     //Website Routes
     $r->addRoute('GET', '/', [App\Controllers\WebsiteController::class, "send"]);
@@ -25,7 +25,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
     //ApartmentEdit Routes
     $r->addRoute('GET', '/create', [App\Controllers\ApartmentsController::class, "create"]);
-    $r->addRoute('POST', '/create', [App\Controllers\ApartmentsController::class, "list"]);
+    $r->addRoute('POST', '/create', [App\Controllers\ApartmentsController::class, "store"]);
     $r->addRoute('GET', '/show/{id:\d+}', [App\Controllers\ApartmentsController::class, "show"]);
     $r->addRoute('POST', '/show/{id:\d+}/remove', [App\Controllers\ApartmentsController::class, "remove"]);
 
@@ -54,6 +54,7 @@ if (false !== $pos = strpos($uri, '?')) {
 $uri = rawurldecode($uri);
 
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
         echo "404 Not Found";
@@ -75,11 +76,11 @@ switch ($routeInfo[0]) {
         $twig = new Environment(new FilesystemLoader('app/Views'));
 
 
-        if($response instanceof View) {
+        if ($response instanceof View) {
             echo $twig->render($response->getPath(), $response->getVars());
         }
 
-        if($response instanceof Redirect) {
+        if ($response instanceof Redirect) {
             header('Location: ' . $response->getLocation());
         }
 
@@ -87,6 +88,6 @@ switch ($routeInfo[0]) {
 }
 
 
-if (isset($_SESSION['Errors']) && $httpMethod == "GET"){
+if (isset($_SESSION['Errors']) && $httpMethod == "GET") {
     unset($_SESSION['Errors']);
 }

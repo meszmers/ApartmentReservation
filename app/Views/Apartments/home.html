@@ -7,21 +7,22 @@
             {% for apartment in apartments %}
             <div class="col">
                 <div class="card shadow-sm">
-                    <img class="bd-placeholder-img card-img-top" src="/Uploads/Apartments/{{apartment.picture}}"
+
+                    <img class="bd-placeholder-img card-img-top" src="/Uploads/Apartments/{{apartment.apartmentInfo.picture}}"
                          width="100%" height="220">
                     <div class="card-body">
-                        <h5>{{apartment.country}} / {{apartment.address}} <br> <small>{{apartment.rooms}}
-                            rooms</small><br> <small style="color: #656565">{{apartment.price}} EUR per day</small></h5>
-                        <p class="card-text">{{apartment.description}}<a href="/show/{{apartment.id}}" style="text-decoration: none;">.....</a></p>
+                        <h5>{{apartment.apartmentInfo.country}} / {{apartment.apartmentInfo.address}} <br> <small>{{apartment.apartmentInfo.rooms}}
+                            rooms</small><br> <small style="color: #656565">{{apartment.apartmentInfo.price}} EUR per day</small></h5>
+                        <p class="card-text">{{apartment.apartmentInfo.description}}</p>
 
-                        From &nbsp {{apartment.availableFrom}}
+                        From &nbsp {{apartment.apartmentInfo.availableFrom}}
                         <br>
-                        To &nbsp &nbsp &nbsp {{apartment.availableTo}}
+                        To &nbsp &nbsp &nbsp {{apartment.apartmentInfo.availableTo}}
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group" style="margin-top: 10px">
-                                <a href="/show/{{apartment.id}}" class="btn btn-sm btn-outline-secondary" type="submit">View</a>
+                                <a href="/show/{{apartment.apartmentInfo.id}}" class="btn btn-sm btn-outline-secondary" type="submit">View</a>
                             </div>
-                            <small class="text-muted">created {{apartment.createdAt}}</small>
+                            <small class="text-muted">created {{apartment.apartmentInfo.createdAt}}</small>
                         </div>
                     </div>
                 </div>

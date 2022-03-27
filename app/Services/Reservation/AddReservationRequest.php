@@ -1,42 +1,21 @@
 <?php
 
-namespace App\Models;
-class Reservation
-{
+namespace App\Services\Reservation;
 
-
+class AddReservationRequest {
     private int $userId;
     private int $apartmentId;
     private string $dayFrom;
     private string $dayTo;
     private float $totalPrice;
-    private ?int $id;
 
-    public function __construct(int $id, int $userId, int $apartmentId, string $dayFrom, string $dayTo, float $totalPrice)
+    public function __construct(int $userId, int $apartmentId, string $dayFrom, string $dayTo, float $totalPrice)
     {
-
         $this->userId = $userId;
         $this->apartmentId = $apartmentId;
         $this->dayFrom = $dayFrom;
         $this->dayTo = $dayTo;
         $this->totalPrice = $totalPrice;
-        $this->id = $id;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserId(): int
-    {
-        return $this->userId;
     }
 
     /**
@@ -48,11 +27,19 @@ class Reservation
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getDayFrom(): string
+    public function getUserId(): int
     {
-        return $this->dayFrom;
+        return $this->userId;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalPrice(): float
+    {
+        return $this->totalPrice;
     }
 
     /**
@@ -64,12 +51,10 @@ class Reservation
     }
 
     /**
-     * @return float
+     * @return string
      */
-    public function getTotalPrice(): float
+    public function getDayFrom(): string
     {
-        return $this->totalPrice;
+        return $this->dayFrom;
     }
-
-
 }

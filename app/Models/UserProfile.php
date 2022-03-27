@@ -21,33 +21,53 @@ class UserProfile
         $this->phoneNumber = $phoneNumber;
     }
 
-    public function getSurname(): string
-    {
-        return $this->surname;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getUserId(): int
-    {
-        return $this->userId;
-    }
-
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @return string
+     */
+    public function getPhoneNumber(): string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSurname(): string
+    {
+        return $this->surname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return int
+     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getPhoneNumber(): string
+    /**
+     * @return int
+     */
+    public function getUserId(): int
     {
-        return $this->phoneNumber;
+        return $this->userId;
     }
+
+
 }

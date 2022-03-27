@@ -2,56 +2,52 @@
 
 namespace App\Controllers;
 
-use App\Database;
 use App\Errors;
-use App\Models\Reservation;
 use App\Redirect;
+use App\Services\Apartment\ShowApartmentRequest;
+use App\Services\Apartment\ShowApartmentService;
+use App\Services\Reservation\AddReservationRequest;
+use App\Services\Reservation\AddReservationService;
+use App\Services\Reservation\CancelReservationRequest;
+use App\Services\Reservation\CancelReservationService;
+use App\Services\Reservation\GetAllByUserReservationRequest;
+use App\Services\Reservation\GetAllByUserReservationService;
 use App\View;
 
 class ReservationController
 {
 
-    public function userReservations()
+    public function userReservations(): View
     {
-        $dataBase = Database::connection();
-        $reservations = $dataBase->fetchAllAssociative('SELECT * FROM reservations WHERE user_id = ?', [$_SESSION["login"]["id"]]);
+        $reservations = (new GetAllByUserReservationService())->execute(new GetAllByUserReservationRequest((int)$_SESSION["login"]["id"]));
         $data = [];
+
         foreach ($reservations as $reservation) {
-            $apartment = $dataBase->fetchAssociative('SELECT country, address, rooms  FROM apartments WHERE id = ?', [$reservation["apartment_id"]]);
-            $data[] = new Reservation(
-                $reservation["id"],
-                $reservation["user_id"],
-                $reservation["apartment_id"],
-                $reservation["day_from"],
-                $reservation["day_to"],
-                $reservation["total_price"],
-                $apartment["country"],
-                $apartment["address"],
-                $apartment["rooms"],);
+            $apartment = (new ShowApartmentService())->execute(new ShowApartmentRequest($reservation->getApartmentId()));
+            $data[] = ["reservation" => $reservation, "apartment" => $apartment];
         }
 
         return new View("Apartments/reservations.html", ["reservations" => $data]);
     }
 
+
     public function reserve($vars): Redirect
     {
-
         (new Errors())->bookingValidation($vars["id"], $_POST["from"], $_POST["to"]);
 
         if (empty($_SESSION["Errors"])) {
-            $dataBase = Database::connection();
-            $apartmentPrice = $dataBase->fetchAssociative('SELECT price FROM apartments WHERE id = ?', [$vars["id"]]);
 
-            $price = number_format(count(range(str_replace("-", "", $_POST["from"]), str_replace("-", "", $_POST["to"]))) * $apartmentPrice["price"], 2);
+            $apartmentPrice = (new ShowApartmentService())->execute(new ShowApartmentRequest($vars["id"]));
+            $price = number_format(count(range(str_replace("-", "", $_POST["from"]), str_replace("-", "", $_POST["to"]))) * $apartmentPrice->getPrice(), 2);
 
-            $dataBase->insert('reservations',
-                [
-                    "user_id" => $_SESSION["login"]["id"],
-                    "apartment_id" => $vars["id"],
-                    "day_from" => $_POST["from"],
-                    "day_to" => $_POST["to"],
-                    "total_price" => $price
-                ]);
+            (new AddReservationService())->execute(new AddReservationRequest(
+                $_SESSION["login"]["id"],
+                $vars["id"],
+                $_POST["from"],
+                $_POST["to"],
+                $price
+            ));
+
         }
         return new Redirect("/show/" . $vars["id"]);
 
@@ -60,9 +56,7 @@ class ReservationController
     public function cancel($vars): Redirect
     {
 
-        Database::connection()
-            ->delete('reservations', ['id' => $vars["id"]]);
-
+        (new CancelReservationService())->execute(new CancelReservationRequest($vars["id"]));
         return new Redirect("/reservations");
 
     }

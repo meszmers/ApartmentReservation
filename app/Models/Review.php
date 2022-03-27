@@ -1,39 +1,37 @@
 <?php
 namespace App\Models;
-class ReviewInfo {
-    private int $id;
+class Review {
+
     private int $userId;
     private int $apartmentId;
     private int $rating;
     private string $review;
-    private string $name;
-    private string $surname;
-    private string $createdAt;
+    private ?string $createdAt;
+    private ?int $id;
 
-    public function __construct(int $id, int $userId, int $apartmentId, int $rating, string $review, string $name, string $surname, string $createdAt)
+    public function __construct(int $userId, int $apartmentId, int $rating, string $review, ?string $createdAt = null, ?int $id = null)
     {
-        $this->id = $id;
+
         $this->userId = $userId;
         $this->apartmentId = $apartmentId;
         $this->rating = $rating;
         $this->review = $review;
-        $this->name = $name;
-        $this->surname = $surname;
         $this->createdAt = $createdAt;
+        $this->id = $id;
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
         return $this->createdAt;
     }
@@ -52,22 +50,6 @@ class ReviewInfo {
     public function getUserId(): int
     {
         return $this->userId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSurname(): string
-    {
-        return $this->surname;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**

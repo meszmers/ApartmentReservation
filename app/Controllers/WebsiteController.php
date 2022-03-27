@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Redirect;
+use App\Services\Apartment\GetAllApartmentRequest;
+use App\Services\Apartment\GetAllApartmentService;
 use App\View;
 
 class WebsiteController
@@ -11,7 +13,8 @@ class WebsiteController
     public function index()
     {
         if (!empty($_SESSION["login"])) {
-            $apartments = (new ModelArrayController)->ApartmentInfoArray();
+
+            $apartments = (new GetAllApartmentService())->execute(new GetAllApartmentRequest());
 
             return new View("Apartments/home.html", ["apartments" => $apartments]);
         } else {
@@ -19,13 +22,10 @@ class WebsiteController
         }
     }
 
-    public function send()
+
+    public function send(): Redirect
     {
         return new Redirect("/login");
     }
 
-    public function error()
-    {
-        return new View("error.html");
-    }
 }
